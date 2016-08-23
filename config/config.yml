@@ -1,0 +1,4 @@
+---
+browser: firefox
+driver: watir_webdriver
+always_locate: true

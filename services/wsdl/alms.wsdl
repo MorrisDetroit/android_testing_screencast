@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://webservices.manheim.com/alms"
+                  targetNamespace="http://webservices.manheim.com/alms">
+  <wsdl:types>
+    <xsd:schema xmlns:ns1="http://webservices.manheim.com/alms" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                targetNamespace="http://webservices.manheim.com/alms">
+      <xsd:simpleType name="DateType">
+        <xsd:restriction base="xsd:string">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PhoneType">
+        <xsd:restriction base="xsd:string">
+          <xsd:pattern value="[0-9]{3}-[0-9]{3}-[0-9]{4}"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <!-- COMPLEX TYPES -->
+      <xsd:complexType name="AddressType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="name">
+            <xsd:annotation>
+              <xsd:documentation>Business/Auction/Location Name</xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="address">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <!--xsd:element name="address2" type="xsd:string" minOccurs="0"/-->
+          <xsd:element minOccurs="0" name="city">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="stateProvince">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="postalCode">
+            <xsd:annotation>
+              <xsd:documentation>a.k.a. Zip Code in U.S.</xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="DeliveryLocationType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="locationId">
+            <xsd:annotation>
+              <xsd:documentation>auction id where vehicle will be delivered (delivery location info will be auto-filled
+                based on this id)
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="date" type="ns1:DateType">
+            <xsd:annotation>
+              <xsd:documentation>drop off date</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="EngineType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="cylinderCount" type="xsd:int"/>
+          <xsd:element minOccurs="0" name="engineDesign">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="fuel">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="induction">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="AutofilledInfoType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="listingFields">
+            <xsd:complexType>
+              <xsd:all>
+                <xsd:element minOccurs="0" name="fldnrCode">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="howFeesPaidCode">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="leaseType">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="lightsOn">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="model15">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="rflCode">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="sellerFields" type="ns1:SellerInfoType"/>
+                <xsd:element minOccurs="0" name="vehicleType">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+              </xsd:all>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="transportFields">
+            <xsd:complexType>
+              <xsd:all>
+                <xsd:element minOccurs="0" name="deliveryFields" type="ns1:LocationType"/>
+                <xsd:element minOccurs="0" name="downloadFlag">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="pickupType">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="recordCode" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="ticketNumber" type="xsd:int"/>
+                <xsd:element minOccurs="0" name="totalMiles" type="xsd:int"/>
+                <xsd:element minOccurs="0" name="user1SBLU">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="keysPresent" type="xsd:boolean"/>
+                <xsd:element minOccurs="0" name="pickupLocationVerified" type="xsd:boolean"/>
+                <xsd:element minOccurs="0" name="transportProblem">
+                  <xsd:complexType>
+                    <xsd:all>
+                      <xsd:element minOccurs="0" name="problemExists" type="xsd:boolean"/>
+                      <xsd:element minOccurs="0" name="problemStartDate" type="xsd:string"/>
+                      <xsd:element minOccurs="0" name="problemExpirationDate" type="xsd:string"/>
+                      <xsd:element minOccurs="0" name="problemAddedByUser" type="xsd:string"/>
+                    </xsd:all>
+                  </xsd:complexType>
+                </xsd:element>
+              </xsd:all>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="updateTrackingFields">
+            <xsd:complexType>
+              <xsd:all>
+                <xsd:element minOccurs="0" name="createProgram" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="createUser" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="createTimestamp" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="lastChangeProgram" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="lastChangeUser" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="lastChangeTimestamp" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="transportLastChangeProgram" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="transportLastChangeUser" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="transportLastChangeTimestamp" type="xsd:string"/>
+              </xsd:all>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="FileKeyType">
+        <xsd:all>
+          <xsd:element name="keyType">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:enumeration value="workOrder"/>
+                <xsd:enumeration value="sblu"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element name="keyValue" type="xsd:int"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="LightsType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="asIsLight" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>equates to Red Light</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="cautionLight" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>equates to Yellow Light</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="guaranteedLight" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>equates to Green Light</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="noTitleLight" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>equates to Blue Light</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ListingInfoType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="announcements">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="businessUnit">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="consignedDate" type="ns1:DateType"/>
+          <xsd:element minOccurs="0" name="dispositionCode">
+            <xsd:annotation>
+              <xsd:documentation>This field can be used to "group" vehicles so you can run reports. You can enter any
+                combination of one or two letters/numbers.
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="groupCode">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="floorPrice" type="xsd:double"/>
+          <xsd:element minOccurs="0" name="leaseAccountNumber">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="legalSaleDate" type="ns1:DateType">
+            <xsd:annotation>
+              <xsd:documentation>once this date is passed and title is in possession, this is the earliest date the
+                vehicle can be scheduled for sale
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="lightInfo" type="ns1:LightsType"/>
+          <xsd:element minOccurs="0" name="remarks">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="stockNumber">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="subGroup">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="vehicleStatus">
+            <xsd:annotation>
+              <xsd:documentation>a.k.a. Record Code</xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="LocationType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="contactName">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="contactPhone" type="ns1:PhoneType"/>
+          <xsd:element minOccurs="0" name="address" type="ns1:AddressType"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="PickupLocationType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="typeOfLocation">
+            <xsd:annotation>
+              <xsd:documentation>i.e. Business, Dealership, ...</xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="location" type="ns1:LocationType"/>
+          <xsd:element minOccurs="0" name="date" type="ns1:DateType">
+            <xsd:annotation>
+              <xsd:documentation>pickup date</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="UntranslatedBooleansType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="asIsLight">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="cautionLight">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="guaranteedLight">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="noTitleLight">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="driveableCondition">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="airConditioning">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="cruiseControl">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="powerLocks">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="powerSteering">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="powerWindows">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="rearDefroster">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="tiltSteering">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="keysPresent">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="pickupLocationVerified">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="transportProblemExists">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="SaleInfoType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="saleDate" type="ns1:DateType"/>
+          <xsd:element minOccurs="0" name="saleYear" type="xsd:int"/>
+          <xsd:element minOccurs="0" name="saleNumber" type="xsd:int"/>
+          <xsd:element minOccurs="0" name="laneNumber" type="xsd:int"/>
+          <xsd:element minOccurs="0" name="runNumber" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SellerInfoType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="dealerId" type="xsd:long">
+            <xsd:annotation>
+              <xsd:documentation>same as sellerNumber</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="address" type="ns1:AddressType"/>
+          <xsd:element minOccurs="0" name="phone" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="TitleInfoType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="titleNumber" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="titlePresent" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="titleState" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TranslationType">
+        <xsd:sequence>
+          <xsd:element name="elementName" type="xsd:string"/>
+          <xsd:element maxOccurs="unbounded" name="valuesMap">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element minOccurs="0" name="sourceValue">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="auctionValue">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="auctionFieldName" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TransportType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="transportMethod">
+            <xsd:annotation>
+              <xsd:documentation>how this will get to the auction (i.e. Customer Drop, Pick up, Deliver, ...)
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="auctionContactName">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="auctionContactPhone" type="ns1:PhoneType"/>
+          <xsd:element minOccurs="0" name="downloadedDate" type="ns1:DateType">
+            <xsd:annotation>
+              <xsd:documentation>date only</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="driveableCondition" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>true/false</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="chargeDestination">
+            <xsd:annotation>
+              <xsd:documentation>CHARGE DESTINATION
+                A = Accounts Receivable
+                D = Dealer Recon
+                R = Recon
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="estimatedChargesDue" type="xsd:float"/>
+          <xsd:element minOccurs="0" name="lesseeName">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="pickupInfo" type="ns1:PickupLocationType"/>
+          <xsd:element minOccurs="0" name="deliveryInfo" type="ns1:DeliveryLocationType"/>
+          <xsd:element minOccurs="0" name="dispatchDate" type="ns1:DateType"/>
+          <xsd:element minOccurs="0" name="verifiedDate" type="ns1:DateType"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="VehicleDescriptionType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="year" type="xsd:int"/>
+          <xsd:element minOccurs="0" name="make">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="model">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="body">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="trim">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="VehicleInfoType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="description" type="ns1:VehicleDescriptionType"/>
+          <xsd:element minOccurs="0" name="engineInfo" type="ns1:EngineType"/>
+          <xsd:element minOccurs="0" name="options" type="ns1:VehicleOptionsType"/>
+          <xsd:element minOccurs="0" name="mileage" type="xsd:int"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="VehicleOptionsType">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="airConditioning" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="airbagFront">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="airbagSide">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="brakes">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="cruiseControl" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="drivetrain">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="exteriorColor">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="interiorCovering">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="interiorColor">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="powerLocks" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="powerSeats">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="powerSteering" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="powerWindows" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="radio">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="rearDefroster" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="roof">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="tiltSteering" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="transmission">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:whiteSpace value="preserve"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="WarningsType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="warningMessage" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <!-- BEGIN METHOD TYPES -->
+      <xsd:element name="addListingRequest">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="auctionId" type="xsd:string"/>
+            <xsd:element name="sellerNumber" type="xsd:int">
+              <xsd:annotation>
+                <xsd:documentation>a.k.a. DealerNumber or DealerId for the seller</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="user" type="xsd:string">
+              <xsd:annotation>
+                <xsd:documentation>User that will be stored on tables updated by this process</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="vin" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="listingInfo" type="ns1:ListingInfoType"/>
+            <xsd:element minOccurs="0" name="transportInfo" type="ns1:TransportType"/>
+            <xsd:element minOccurs="0" name="vehicleInfo" type="ns1:VehicleInfoType"/>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addListingResponse">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="auctionId" type="xsd:string"/>
+            <xsd:element name="sblu" type="xsd:int"/>
+            <xsd:element name="workOrderNumber" type="xsd:int"/>
+            <xsd:element name="successful" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="errorMessage" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="warnings" type="ns1:WarningsType"/>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateListingRequest">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="auctionId" type="xsd:string"/>
+            <xsd:element name="key" type="ns1:FileKeyType"/>
+            <xsd:element minOccurs="0" name="sellerNumber" type="xsd:int"/>
+            <xsd:element name="user" type="xsd:string">
+              <xsd:annotation>
+                <xsd:documentation>User that will be stored on tables updated by this process</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="vin" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="listingInfo" type="ns1:ListingInfoType"/>
+            <xsd:element minOccurs="0" name="transportInfo" type="ns1:TransportType"/>
+            <xsd:element minOccurs="0" name="vehicleInfo" type="ns1:VehicleInfoType"/>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateListingResponse">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="auctionId" type="xsd:string"/>
+            <xsd:element name="sblu" type="xsd:int"/>
+            <xsd:element name="workOrderNumber" type="xsd:int"/>
+            <xsd:element name="successful" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="errorMessage" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="warnings" type="ns1:WarningsType"/>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retrieveListingRequest">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="auctionId" type="xsd:string"/>
+            <xsd:element name="key" type="ns1:FileKeyType"/>
+            <xsd:element name="translateValues" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="infoTypes">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" name="infoType">
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="autofilledInfo"/>
+                        <xsd:enumeration value="booleanFieldInfo"/>
+                        <xsd:enumeration value="listingInfo"/>
+                        <xsd:enumeration value="saleInfo"/>
+                        <xsd:enumeration value="titleInfo"/>
+                        <xsd:enumeration value="transportInfo"/>
+                        <xsd:enumeration value="vehicleInfo"/>
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retrieveListingResponse">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="auctionId" type="xsd:string"/>
+            <xsd:element name="sblu" type="xsd:int"/>
+            <xsd:element name="workOrderNumber" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="vin" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="autofilledInfo" type="ns1:AutofilledInfoType">
+              <xsd:annotation>
+                <xsd:documentation>Shows data values that were automatically populated behind the scenes based on
+                  business logic.
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="booleanFieldInfo" type="ns1:UntranslatedBooleansType">
+              <xsd:annotation>
+                <xsd:documentation>Only way to show the raw data values behind all the Boolean fields in the schema
+                  (they are stored as strings in the database).
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="listingInfo" type="ns1:ListingInfoType"/>
+            <xsd:element minOccurs="0" name="saleInfo" type="ns1:SaleInfoType"/>
+            <xsd:element minOccurs="0" name="titleInfo" type="ns1:TitleInfoType"/>
+            <xsd:element minOccurs="0" name="transportInfo" type="ns1:TransportType"/>
+            <xsd:element minOccurs="0" name="vehicleInfo" type="ns1:VehicleInfoType"/>
+            <xsd:element minOccurs="0" name="errorMessage" type="xsd:string"/>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retrieveTranslationListRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="elementName" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retrieveTranslationListResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="translation" type="ns1:TranslationType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <!-- END METHOD TYPES -->
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="addListingRequest">
+    <wsdl:part element="tns:addListingRequest" name="addListingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="retrieveListingRequest">
+    <wsdl:part element="tns:retrieveListingRequest" name="retrieveListingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateListingResponse">
+    <wsdl:part element="tns:updateListingResponse" name="updateListingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateListingRequest">
+    <wsdl:part element="tns:updateListingRequest" name="updateListingRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addListingResponse">
+    <wsdl:part element="tns:addListingResponse" name="addListingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="retrieveTranslationListRequest">
+    <wsdl:part element="tns:retrieveTranslationListRequest" name="retrieveTranslationListRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="retrieveTranslationListResponse">
+    <wsdl:part element="tns:retrieveTranslationListResponse" name="retrieveTranslationListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="retrieveListingResponse">
+    <wsdl:part element="tns:retrieveListingResponse" name="retrieveListingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="auctionListingManagementService">
+    <wsdl:operation name="addListing">
+      <wsdl:input message="tns:addListingRequest" name="addListingRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:addListingResponse" name="addListingResponse">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="retrieveListing">
+      <wsdl:input message="tns:retrieveListingRequest" name="retrieveListingRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:retrieveListingResponse" name="retrieveListingResponse">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateListing">
+      <wsdl:input message="tns:updateListingRequest" name="updateListingRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:updateListingResponse" name="updateListingResponse">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="retrieveTranslationList">
+      <wsdl:input message="tns:retrieveTranslationListRequest" name="retrieveTranslationListRequest">
+      </wsdl:input>
+      <wsdl:output message="tns:retrieveTranslationListResponse" name="retrieveTranslationListResponse">
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="auctionListingManagementServiceSoap11" type="tns:auctionListingManagementService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="addListing">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="addListingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addListingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="retrieveListing">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="retrieveListingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="retrieveListingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateListing">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="updateListingRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateListingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="retrieveTranslationList">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="retrieveTranslationListRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="retrieveTranslationListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="auctionListingManagementServiceService">
+    <wsdl:port binding="tns:auctionListingManagementServiceSoap11" name="auctionListingManagementServiceSoap11">
+      <soap:address
+              location="https://webservices.eteqa1.man.qa:443/AuctionListingManagementService-webservice-1.0.6-SNAPSHOT/services/AuctionListingManagementService/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

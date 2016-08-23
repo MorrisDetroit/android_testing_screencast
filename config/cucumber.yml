@@ -1,0 +1,16 @@
+<%
+std_opts = "--format pretty -r features --format html --out #{Time.now.strftime "reports/cucumber_%a_%b_%d_%H.%M.%S_%Y.html"}"
+json_opts = "--format pretty --format json --out #{Time.now.strftime "reports/json/cucumber_%a_%b_%d_%H.%M.%S_%Y.json"}"
+tagged_out = "--tag ~@hybrid --tag ~@manual --expand"
+require 'bundler/setup'
+default = "#{std_opts} #{json_opts} #{tagged_out}"
+json = "#{json_opts} #{tagged_out}"
+first_run = "#{std_opts} #{json_opts} #{tagged_out} --format rerun --out .cucumber.rerun"
+second_run = "#{std_opts} #{json_opts} #{tagged_out} @.cucumber.rerun"
+%>
+
+default: <%= default %>
+dryrun: <%= std_opts %>
+json: <%= json %>
+first_run: <%= first_run %>
+second_run: <%= second_run %>

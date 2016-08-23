@@ -1,0 +1,14 @@
+---
+v1_0:
+    common: &common
+      :wsdl: http://vikings-alms-qa.aws-dev.manheim.com/AuctionListingManagementService/services/AuctionListingManagementService/contract.wsdl
+      :namespace: http://webservices.manheim.com/alms
+      :basic_auth: ['auctionlistingmanagementservice', 'Manheim101']
+      :log_level: :debug
+      :log: false
+    dev:
+      <<: *common
+      :endpoint: http://vikings-alms-qa.aws-dev.manheim.com/AuctionListingManagementService/services/AuctionListingManagementService/
+    qa:
+      <<: *common
+      :endpoint: http://vikings-alms-qa.aws-dev.manheim.com/AuctionListingManagementService/services/AuctionListingManagementService/

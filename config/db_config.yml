@@ -1,0 +1,15 @@
+---
+dev:
+  adapter: jdbc
+  driver: com.ibm.as400.access.AS400JDBCDriver
+  url: jdbc:as400://mqlm1400.man.cox.com;naming=sql;transaction isolation=none;prompt=false'
+  connection_alive_sql: SELECT 1 FROM sysibm.tables FETCH FIRST 1 ROWS ONLY'
+  username:
+  password:
+qa:
+  adapter: jdbc
+  driver: com.ibm.as400.access.AS400JDBCDriver
+  url: jdbc:as400://mqlm1400.man.cox.com;naming=sql;transaction isolation=none;prompt=false'
+  connection_alive_sql: SELECT 1 FROM sysibm.tables FETCH FIRST 1 ROWS ONLY'
+  username:
+  password:

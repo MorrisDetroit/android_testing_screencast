@@ -1,0 +1,8 @@
+---
+v1_0:
+  dev:
+    :base_uri: 'https://integration1.api.manheim.com'
+    :basic_auth: '6mt6xggtj3tytr6snsvgxtrq, byyyW6yACB'
+  qa:
+    :base_uri: 'https://integration1.api.manheim.com'
+    :basic_auth: '6mt6xggtj3tytr6snsvgxtrq, byyyW6yACB'
